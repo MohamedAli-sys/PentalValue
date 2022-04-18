@@ -1,0 +1,28 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.container {
+  margin-right: 15px;
+  margin-top: 15px;
+  margin-left: 15px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.router-link-active {
+  background-color: #eee;
+}
