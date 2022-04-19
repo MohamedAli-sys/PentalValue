@@ -1,1 +1,24 @@
-<p>login works!</p>
+<div class="container">
+    <mat-card>
+        <mat-card-content>
+            <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
+                <img src="../../../assets/loginIcon.svg" alt="">
+                <h2>Log In</h2>
+                <mat-form-field>
+                    <input matInput placeholder="Email" formControlName="userName" name="username" required>
+                    <mat-error>
+                        Please provide a valid email address
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="password" placeholder="Password" formControlName="password" name="password"
+                        required>
+                    <mat-error>
+                        Please provide a valid password
+                    </mat-error>
+                </mat-form-field>
+                <button mat-raised-button color="primary" [disabled]="!loginForm.valid">Login</button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

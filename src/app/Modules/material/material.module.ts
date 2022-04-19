@@ -17,6 +17,9 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 const material = [
   MatButtonModule,
@@ -37,6 +40,9 @@ const material = [
   ReactiveFormsModule,
   MatTableModule,
   MatSortModule,
+  MatDialogModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
 ];
 
 @NgModule({
