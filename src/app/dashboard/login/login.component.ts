@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IUser } from 'src/app/Models/iuser';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { getAuth, RecaptchaVerifier } from 'firebase/auth';
+import firebase from 'firebase/compat/app';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +11,8 @@ import { getAuth, RecaptchaVerifier } from 'firebase/auth';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  constructor() {
+  @ViewChild('code') code: ElementRef;
+  constructor(private auth: AngularFireAuth) {
     this.createLoginForm();
   }
 
@@ -23,23 +24,20 @@ export class LoginComponent implements OnInit {
 
   createLoginForm() {
     this.loginForm = new FormGroup({
-      userName: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required),
+      phone: new FormControl('', Validators.required),
     });
   }
 
   login(value) {
-    const au = getAuth();
-    new RecaptchaVerifier(
-      'sign-in-button',
-      {
-        size: 'invisible',
-        callback: (res) => {
-          console.log(res);
-        },
-      },
-      au
+    let verification = new firebase.auth.RecaptchaVerifier(
+      'recaptcha-container'
     );
-    // signInWithPhoneNumber(this.auth, value, 'it')
+    this.auth
+      .signInWithPhoneNumber(value.phone, verification)
+      .then((result) => {
+        let verifyCode = prompt('Enter Code');
+        result.confirm(verifyCode);
+        console.log(result);
+      });
   }
 }
