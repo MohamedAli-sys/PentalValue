@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
+import { Dispatch } from '@ngxs-labs/dispatch-decorator';
+import { IAd } from 'src/app/Models/iad';
+import * as ADS_ACTIONS from '../state/ads.action';
 @Component({
   selector: 'app-create-ads',
   templateUrl: './create-ads.component.html',
@@ -12,6 +14,10 @@ export class CreateAdsComponent implements OnInit {
     this.createAdsFormFields();
   }
 
+  @Dispatch() private CreateNewAd(data) {
+    return new ADS_ACTIONS.addNewAds(data);
+  }
+
   ngOnInit(): void {}
 
   get advForm() {
@@ -21,13 +27,26 @@ export class CreateAdsComponent implements OnInit {
   createAdsFormFields() {
     this.createAdsForm = new FormGroup({
       mediaType: new FormControl('', Validators.required),
-      mediaLink: new FormControl('', Validators.required),
+      link: new FormControl('', Validators.required),
       from_time: new FormControl('', Validators.required),
       to_time: new FormControl('', Validators.required),
     });
   }
 
   submitAdsForm(value) {
-    console.log(value);
+    const obj: IAd = {
+      id: new Date().toString(),
+      type: value.mediaType,
+      from_time: value.from_time,
+      to_time: value.to_time,
+    };
+    if (value.mediaType === 'image') {
+      obj.image = value.link;
+      obj.video = '';
+    } else if (value.mediaType === 'video') {
+      obj.video = value.link;
+      obj.image = '';
+    }
+    this.CreateNewAd(obj);
   }
 }

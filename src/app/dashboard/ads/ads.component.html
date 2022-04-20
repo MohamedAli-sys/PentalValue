@@ -2,13 +2,40 @@
     <h3>Create Ads</h3>
     <button mat-raised-button color="primary" (click)="createAds()">Create Ads</button>
 </mat-card>
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
-    <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
-        <th mat-header-cell *matHeaderCellDef>
-            {{column.header}}
-        </th>
-        <td mat-cell *matCellDef="let row">
-            {{column.cell(row)}}
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef>Type</th>
+        <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="link">
+        <th mat-header-cell *matHeaderCellDef>Link</th>
+        <td mat-cell *matCellDef="let element">
+            <span *ngIf="element.video.length > 0"> {{element.video}} </span>
+            <span *ngIf="element.image.length > 0"> {{element.image}} </span>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="start">
+        <th mat-header-cell *matHeaderCellDef> Start </th>
+        <td mat-cell *matCellDef="let element"> {{element.from_time}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="end">
+        <th mat-header-cell *matHeaderCellDef> End </th>
+        <td mat-cell *matCellDef="let element"> {{element.to_time}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="controls">
+        <th mat-header-cell *matHeaderCellDef> End </th>
+        <td mat-cell *matCellDef="let element">
+            <button (click)="deleteAd(element.id)">
+                Del
+            </button>
+            <button (click)="editAd(element)">
+                Edit
+            </button>
         </td>
     </ng-container>
 
