@@ -2,6 +2,9 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
+import { ToastersService } from 'src/app/Services/Toasters/toasters.service';
+import { SweetAlertResult } from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +14,11 @@ import firebase from 'firebase/compat/app';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   @ViewChild('code') code: ElementRef;
-  constructor(private auth: AngularFireAuth) {
+  constructor(
+    private auth: AngularFireAuth,
+    private toaster: ToastersService,
+    private router: Router
+  ) {
     this.createLoginForm();
   }
 
@@ -34,9 +41,16 @@ export class LoginComponent implements OnInit {
     this.auth
       .signInWithPhoneNumber(value.phone, verification)
       .then((result) => {
-        let verifyCode = prompt('Enter Code');
-        result.confirm(verifyCode);
-        console.log(result);
+        this.toaster
+          .boxRefuseReason('Enter your verification code !')
+          .then((res: SweetAlertResult) => {
+            if (res.isConfirmed) {
+              result.confirm(res.value);
+              localStorage.setItem('token', result.verificationId);
+              this.toaster.boxMessage('Logged In', 'success');
+              this.router.navigate(['/Ads']);
+            }
+          });
       });
   }
 }

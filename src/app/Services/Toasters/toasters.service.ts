@@ -35,4 +35,23 @@ export class ToastersService {
       title: `${processMsg}`,
     });
   }
+
+  boxRefuseReason(title) {
+    return Swal.fire({
+      title: title,
+      input: 'text',
+      inputValidator: (result) =>
+        result.length !== 6 && 'You should enter code from 6 digits !',
+      inputAttributes: {
+        autocapitalize: 'off',
+      },
+      backdrop: false,
+      showCancelButton: false,
+      confirmButtonText: 'Send',
+      showLoaderOnConfirm: true,
+      icon: 'info',
+      preConfirm: (login) => {},
+      allowEnterKey: true,
+    });
+  }
 }
