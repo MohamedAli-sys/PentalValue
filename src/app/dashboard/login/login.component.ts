@@ -46,11 +46,17 @@ export class LoginComponent implements OnInit {
           .then((res: SweetAlertResult) => {
             if (res.isConfirmed) {
               result.confirm(res.value).then((res) => {
-                console.log(res);
+                if (res.operationType === 'signIn') {
+                  localStorage.setItem('token', result.verificationId);
+                  this.toaster.boxMessage('Logged In', 'success');
+                  this.router.navigate(['/Ads']);
+                } else {
+                  this.toaster.boxMessage(
+                    'Wrong Verification Code !',
+                    'warning'
+                  );
+                }
               });
-              localStorage.setItem('token', result.verificationId);
-              this.toaster.boxMessage('Logged In', 'success');
-              this.router.navigate(['/Ads']);
             }
           });
       });
