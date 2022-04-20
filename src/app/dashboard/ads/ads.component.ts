@@ -3,13 +3,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ViewSelectSnapshot } from '@ngxs-labs/select-snapshot';
 import { IAd } from 'src/app/Models/iad';
-import { DataService } from 'src/app/Services/Data/data.service';
 import { CreateAdsComponent } from './create-ads/create-ads.component';
 import { AdsState } from './state/ads.state';
 import * as ADS_ACTIONS from './state/ads.action';
 import { Dispatch } from '@ngxs-labs/dispatch-decorator';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { EditAdsComponent } from './edit-ads/edit-ads.component';
+import { ToastersService } from 'src/app/Services/Toasters/toasters.service';
 @Component({
   selector: 'app-ads',
   templateUrl: './ads.component.html',
@@ -20,20 +21,18 @@ export class AdsComponent implements OnInit {
   dataSource: MatTableDataSource<IAd> = new MatTableDataSource<IAd>();
 
   @ViewSelectSnapshot(AdsState.AllAds) public adsData: IAd[];
-  @Select(AdsState.AllAds) public testData: Observable<IAd[]>;
+  @Select(AdsState.AllAds) public allData$: Observable<IAd[]>;
   @Dispatch() public fireFetchData() {
     return new ADS_ACTIONS.FetchData();
   }
   @Dispatch() public deleteAds(id: string) {
     return new ADS_ACTIONS.deleteAd(id);
   }
-  @Dispatch() public editAds(body: IAd) {
-    return new ADS_ACTIONS.editAd(body);
-  }
-  constructor(public create: MatDialog, private adsService: DataService) {}
+
+  constructor(public create: MatDialog, private toaster: ToastersService) {}
 
   ngOnInit(): void {
-    this.testData.subscribe(
+    this.allData$.subscribe(
       (res: IAd[]) => (this.dataSource = new MatTableDataSource<IAd>(res))
     );
     this.fireFetchData();
@@ -44,16 +43,17 @@ export class AdsComponent implements OnInit {
   }
 
   deleteAd(id) {
-    this.deleteAds(id);
+    this.toaster.confirmMessage().then((res) => {
+      if (res.isConfirmed) {
+        this.deleteAds(id);
+        this.toaster.boxMessage('Ad Deleted !', 'success');
+      }
+    });
   }
 
   editAd(body: IAd) {
-    console.log(body);
-    body = {
-      ...body,
-      image: 'vlaue elsdasdas',
-    };
-    this.editAds(body);
-    console.log(body);
+    this.create.open(EditAdsComponent, {
+      data: body,
+    });
   }
 }

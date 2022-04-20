@@ -1,1 +1,43 @@
-<p>edit-ads works!</p>
+<h2 mat-dialog-title>Edit Ad</h2>
+<mat-divider></mat-divider>
+<form [formGroup]="createAdsForm" (ngSubmit)="submitAdsForm(createAdsForm.value)">
+    <mat-dialog-content class="mat-typography">
+        <mat-form-field appearance="fill">
+            <mat-label>Media</mat-label>
+            <mat-select formControlName="mediaType" name="mediaType">
+                <mat-option value="video">
+                    Video
+                </mat-option>
+                <mat-option value="image">
+                    Image
+                </mat-option>
+            </mat-select>
+            <mat-error class="has_error" *ngIf="advForm.mediaType.invalid && advForm.mediaType.touched">
+                This Field Is Required
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Link</mat-label>
+            <input matInput formControlName='link' name="link">
+            <mat-error class="has_error" *ngIf="advForm.link.invalid && advForm.link.touched">
+                This Field Is Required
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+                <input matStartDate formControlName="from_time" placeholder="Start date">
+                <input matEndDate formControlName="to_time" placeholder="End date">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+            <mat-error *ngIf="advForm.from_time.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+            <mat-error *ngIf="advForm.to_time.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button color="accent" mat-dialog-close>Cancel</button>
+        <button mat-raised-button color="primary" [disabled]="!createAdsForm.valid" type="submit"
+            [mat-dialog-close]="true">Edit</button>
+    </mat-dialog-actions>
+</form>

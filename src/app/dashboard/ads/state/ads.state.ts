@@ -30,6 +30,7 @@ export class AdsState {
 
   /**
    * @Decorators Reducers
+   * PatchState & GetStates
    */
   @Action(ADS_ACTIONS.FetchData)
   public FetchData({ patchState }: StateContext<AdsStateModel>) {

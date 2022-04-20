@@ -9,6 +9,55 @@ mat-card {
     color: #3f51b5;
   }
 }
-table {
-  width: 100%;
+
+.table-container {
+  overflow-x: auto;
+  table {
+    width: 100%;
+    @media (max-width: 750px) {
+      width: 150%;
+    }
+    th,
+    td {
+      padding: 0 20px;
+    }
+    tr.mat-row {
+      height: 60px !important;
+    }
+    td {
+      a {
+        text-decoration: none;
+        color: #eee;
+        transition: color 0.5s;
+        &:hover {
+          color: rgb(99, 99, 99);
+        }
+        mat-icon {
+          transform: scale(1.5);
+        }
+      }
+    }
+    th.mat-header-cell:nth-of-type(2),
+    td.mat-cell:nth-of-type(2),
+    td.mat-footer-cell:nth-of-type(2) {
+      width: 200px;
+    }
+    th.mat-header-cell:last-of-type,
+    td.mat-cell:last-of-type,
+    td.mat-footer-cell:last-of-type {
+      width: 18%;
+      @media (max-width: 991px) {
+        width: 20%;
+      }
+      @media (max-width: 480px) {
+        width: 25%;
+      }
+      button {
+        margin-right: 15px;
+        @media (max-width: 480px) {
+          margin-right: 3px;
+        }
+      }
+    }
+  }
 }

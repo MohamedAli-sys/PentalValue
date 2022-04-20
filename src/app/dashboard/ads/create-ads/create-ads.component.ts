@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Dispatch } from '@ngxs-labs/dispatch-decorator';
 import { IAd } from 'src/app/Models/iad';
+import { ToastersService } from 'src/app/Services/Toasters/toasters.service';
 import * as ADS_ACTIONS from '../state/ads.action';
 @Component({
   selector: 'app-create-ads',
@@ -10,7 +11,7 @@ import * as ADS_ACTIONS from '../state/ads.action';
 })
 export class CreateAdsComponent implements OnInit {
   createAdsForm: FormGroup;
-  constructor() {
+  constructor(private toaster: ToastersService) {
     this.createAdsFormFields();
   }
 
@@ -47,6 +48,7 @@ export class CreateAdsComponent implements OnInit {
       obj.video = value.link;
       obj.image = '';
     }
+    this.toaster.boxMessage('Ad Created !', 'success');
     this.CreateNewAd(obj);
   }
 }
