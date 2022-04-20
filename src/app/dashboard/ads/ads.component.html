@@ -1,6 +1,6 @@
 <mat-card>
     <h3>Create Ads</h3>
-    <button mat-raised-button color="primary" (click)="createAds()">Create Ads</button>
+    <button mat-raised-button color="primary" matTooltip="Create New Ad" (click)="createAds()">Create Ads</button>
 </mat-card>
 <div class="table-container mat-elevation-z8">
     <table mat-table [dataSource]="dataSource">
@@ -13,12 +13,12 @@
             <th mat-header-cell *matHeaderCellDef>Link</th>
             <td mat-cell *matCellDef="let element">
                 <span *ngIf="element.video.length > 0">
-                    <a href={{element.video}}>
+                    <a matTooltip={{element.video}} href={{element.video}}>
                         <mat-icon>ondemand_video</mat-icon>
                     </a>
                 </span>
                 <span *ngIf="element.image.length > 0">
-                    <a href={{element.image}}>
+                    <a matTooltip={{element.image}} href={{element.image}}>
                         <mat-icon>photo</mat-icon>
                     </a>
                 </span>
@@ -38,10 +38,10 @@
         <ng-container matColumnDef="controls">
             <th mat-header-cell *matHeaderCellDef> Controls </th>
             <td mat-cell *matCellDef="let element">
-                <button mat-mini-fab color="primary" (click)="editAd(element)">
+                <button mat-mini-fab color="primary" matTooltip="Edit" (click)="editAd(element)">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-mini-fab color="warn" (click)="deleteAd(element.id)">
+                <button mat-mini-fab color="warn" matTooltip="Delete" (click)="deleteAd(element.id)">
                     <mat-icon>delete</mat-icon>
                 </button>
             </td>

@@ -45,7 +45,9 @@ export class LoginComponent implements OnInit {
           .boxRefuseReason('Enter your verification code !')
           .then((res: SweetAlertResult) => {
             if (res.isConfirmed) {
-              result.confirm(res.value);
+              result.confirm(res.value).then((res) => {
+                console.log(res);
+              });
               localStorage.setItem('token', result.verificationId);
               this.toaster.boxMessage('Logged In', 'success');
               this.router.navigate(['/Ads']);
